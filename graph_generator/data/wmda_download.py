@@ -20,14 +20,15 @@ import os.path
 import urllib.request
 from tarfile import TarFile
 
-url='https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5089599/bin/TAN-87-439-s006.tgz'
+#url='https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5089599/bin/TAN-87-439-s006.tgz'
+url='https://pmc.ncbi.nlm.nih.gov/articles/instance/5089599/bin/TAN-87-439-s006.tgz'
 file_name='TAN-87-439-s006.tgz'
 
 # download file
 if os.path.isfile(file_name):
     print('Skipping download step.  File found: ', file_name)
 else:
-    print('Downloading file', file_name, '...')
+    print('Downloading ', url, 'to file', file_name, '...')
     urllib.request.urlretrieve(url, file_name)
 
 # unpack it
