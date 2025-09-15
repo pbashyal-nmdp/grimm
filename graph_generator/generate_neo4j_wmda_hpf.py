@@ -291,7 +291,7 @@ ndf = freq_df.join(freq_df.groupby(['HapNode', 'ParentID'])['P'].sum(), on=['Hap
 df2 = ndf[['HapNode', 'ParentID', 'P_r', 'CP']]
 df2 = df2.drop_duplicates()
 df2.columns = [':START_ID(HAPLOTYPE)', ':END_ID(HAPLOTYPE)', 'CP:DOUBLE[]', ':TYPE']
-df2.to_csv(edge_file, index=False, header=True, line_terminator='\n')
+df2.to_csv(edge_file, index=False, header=True, lineterminator='\n')
 
 # # #### Generate Top Links file
 header = [':START_ID(HAPLOTYPE)', ':END_ID(HAPLOTYPE)', ':TYPE']

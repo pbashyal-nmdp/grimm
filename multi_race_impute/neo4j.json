@@ -1,5 +1,5 @@
 {
-  "graph": "http://localhost:7474/data/",
+  "graph": "bolt://localhost:7687",
   "password": "ontological",
   "user": "neo4j"
 }

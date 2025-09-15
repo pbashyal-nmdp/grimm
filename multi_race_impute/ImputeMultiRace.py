@@ -7,6 +7,7 @@ import pandas as pa
 import os
 import gzip
 from hf_cypher.cypherQuery import CypherQuery
+import kuzu
 
 
 class Imputation(object):
@@ -104,7 +105,9 @@ class Imputation(object):
             haplos_joined = ["~".join(sorted(hap)) for hap in hap_cand]
             all_hap.append(haplos_joined)
         haplo_query1 = self.cypher.buildQuery(haplos_joined)
-        fq = pa.DataFrame(self.graph.data(haplo_query1))
+        response = self.graph.execute(haplo_query1)
+        fq = response.get_as_df()
+        # fq = pa.DataFrame(self.graph.data(haplo_query1))
         if not fq.empty:
             freq1_dic = fq.set_index('abcqr.name')['abcqr.frequency'].to_dict()
             haplo_probs.update(freq1_dic)
@@ -118,7 +121,6 @@ class Imputation(object):
             haplos_joined = ["~".join(sorted(hap)) for hap in hap_cand]
             all_hap.append(haplos_joined)
         haplo_query1 = self.cypher.buildQuery(haplos_joined)
-        haplo_query1
         fq = pa.DataFrame(self.graph.data(haplo_query1))
         if not fq.empty:
             freq1_dic = fq.set_index('abc.name')['abc.frequency'].to_dict()
