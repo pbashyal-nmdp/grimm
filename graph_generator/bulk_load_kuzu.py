@@ -2,7 +2,7 @@ import kuzu
 
 def main() -> None:
     # Create an empty on-disk database and connect to it
-    db = kuzu.Database("./wmda.kuzu")
+    db = kuzu.Database("output/wmda.kuzu")
     conn = kuzu.Connection(db)
 
     # Create schema

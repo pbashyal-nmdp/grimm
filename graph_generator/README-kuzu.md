@@ -17,24 +17,16 @@
 	```
 
 - Setup Python3 virtual environment
-  Make sure `virtualenv` is installed.
-    ```
-    pip3 install virtualenv
-    ```
-
     Create Virtual Environment
- 
     ```
     virtualenv -p python3 venv
     source venv/bin/activate
     ```
  
-    Install pandas library
+    Install pandas and kuzu library
     ```
-    pip3 install pandas kuzu==0.8.2
+    pip3 install pandas kuzu==0.11.2
     ```
-
-
 - Download and prepare wmda data. Python script downloads reference wmda data and untars it in wmda directory
   (This may need to be downloaded from https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5089599/bin/TAN-87-439-s006.tgz and put it the graph_generator/data directory. )
 	```
@@ -45,7 +37,7 @@
 - Generate nodes/edges/toplinks from the reference wmda data. The freqs file is converted to HPF format first.
 	```
 	cd ..
-	python wmda_to_hpf_csv.py
+	python3 wmda_to_hpf_csv.py
 	python3 generate_kuzu_wmda_hpf.py
 	```
 
@@ -67,7 +59,7 @@
 
 - If you look at the database you should see the Haplotype nodes available.
 ```
-$ kuzu wmda.kuzu
+$ kuzu output/wmda.kuzu
 Opening the database at path: wmda.kuzu in read-write mode.
 Enter ":help" for usage hints.
 kuzu> match (h:Haplotype) return count(h);
@@ -81,4 +73,14 @@ kuzu> match (h:Haplotype) return count(h);
 (1 column)
 Time: 14.46ms (compiling), 0.81ms (executing)
 
+```
+
+Run the Kuzu Explorer
+```
+❯ docker run -p 8000:8000 -v $PWD/output:/database -e KUZU_FILE=wmda.kuzu --rm kuzudb/explorer:0.11.2
+[18:16:47.839] INFO (1): Using database file: wmda.kuzutabase -e KUZU_FILE=wmda.kuzu --rm kuzudb/explorer:0.11.2
+[18:16:47.843] INFO (1): Access mode: READ_WRITE
+[18:16:48.079] INFO (1): Version of Kuzu: 0.11.2
+[18:16:48.079] INFO (1): Storage version of Kuzu: 39
+[18:16:48.083] INFO (1): Deployed server started on port: 8000
 ```
